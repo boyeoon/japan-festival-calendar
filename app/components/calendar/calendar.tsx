@@ -113,43 +113,55 @@ export default function Calendar() {
           const dayOfWeek = date.day(); // 0 = 일요일, 6 = 토요일
 
           const dayEvents = events.filter((e) => dayjs(e.date).date() === day);
+          const displayedEvents = dayEvents.slice(0, 3); // 최대 3개 표시
+          const totalEventCount = dayEvents.length; // 총 이벤트 개수
+
           const holiday = holidays.find((h) =>
             dayjs(h.date).isSame(date, "day")
           );
 
           return (
-            <div key={day} className="p-4 h-32 flex flex-col border rounded-md">
-              {/* 날짜 표시 - 왼쪽 정렬 */}
-              <div className="flex items-center">
-                <span
-                  className={`font-semibold ${
-                    holiday || dayOfWeek === 0
-                      ? "text-red-500"
-                      : dayOfWeek === 6
-                      ? "text-blue-500"
-                      : "text-black"
-                  }`}
-                >
-                  {day}
-                </span>
+            <div key={day} className="h-32 flex flex-col border rounded-md">
+              {/* 날짜와 공휴일 + 추가 이벤트 개수 표시 */}
+              <div className="p-4 flex items-center justify-between">
+                <div className="flex items-center">
+                  <span
+                    className={`font-semibold ${
+                      holiday || dayOfWeek === 0
+                        ? "text-red-500"
+                        : dayOfWeek === 6
+                        ? "text-blue-500"
+                        : "text-black"
+                    }`}
+                  >
+                    {day}
+                  </span>
 
-                {/* 공휴일이 있으면 날짜 옆에 표시 */}
-                {holiday && (
-                  <span className="ml-2 text-red-500 text-sm font-medium">
-                    {holiday.localName}
+                  {/* 공휴일이 있으면 날짜 옆에 표시 */}
+                  {holiday && (
+                    <span className="ml-2 text-red-500 text-sm font-medium">
+                      {holiday.localName}
+                    </span>
+                  )}
+                </div>
+
+                {/* 총 이벤트 개수 박스 */}
+                {totalEventCount > 3 && (
+                  <span className="bg-gray-300 text-xs text-black px-2 py-1 rounded-md">
+                    {totalEventCount}개
                   </span>
                 )}
               </div>
 
-              {/* 이벤트 표시 (클릭 시 링크 이동) */}
-              <div className="mt-2 flex flex-col gap-1">
-                {dayEvents.map((event) => (
+              {/* 이벤트 그룹 (최대 3개만 표시) */}
+              <div className="flex flex-col gap-1 w-full">
+                {displayedEvents.map((event) => (
                   <a
                     key={event.id}
                     href={event.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-green-200 text-xs text-center px-2 py-1 rounded-md w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-green-300 transition"
+                    className="bg-green-200 text-xs text-center px-2 py-1 w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-green-300 transition rounded-md"
                   >
                     {event.title}
                   </a>
