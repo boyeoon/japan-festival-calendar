@@ -118,37 +118,41 @@ export default function Calendar() {
           return (
             <div
               key={day}
-              className={`p-6 h-32 flex flex-col items-center justify-start border rounded-md`}
+              className="p-4 h-32 flex flex-col border rounded-md relative"
             >
-              {/* 날짜 표시 - 공휴일이면 빨간색, 그렇지 않으면 기본 요일 색상 유지 */}
-              <span
-                className={`font-semibold ${
-                  holiday || dayOfWeek === 0
-                    ? "text-red-500"
-                    : dayOfWeek === 6
-                    ? "text-blue-500"
-                    : "text-black"
-                }`}
-              >
-                {day}
-              </span>
+              {/* 날짜 표시 - 왼쪽 정렬 */}
+              <div className="flex items-center">
+                <span
+                  className={`font-bold ${
+                    holiday || dayOfWeek === 0
+                      ? "text-red-500"
+                      : dayOfWeek === 6
+                      ? "text-blue-500"
+                      : "text-black"
+                  }`}
+                >
+                  {day}
+                </span>
 
-              {/* 공휴일 표시 */}
-              {holiday && (
-                <div className="mt-1 bg-red-300 text-xs px-2 py-1 rounded-md w-full text-center">
-                  {holiday.localName}
-                </div>
-              )}
+                {/* 공휴일이 있으면 날짜 옆에 표시 */}
+                {holiday && (
+                  <span className="ml-2 text-red-500 text-sm font-bold">
+                    {holiday.localName}
+                  </span>
+                )}
+              </div>
 
               {/* 이벤트 표시 */}
-              {dayEvents.map((event) => (
-                <div
-                  key={event.id}
-                  className="bg-blue-200 text-xs text-center px-2 py-1 rounded-md w-full overflow-hidden whitespace-nowrap overflow-ellipsis"
-                >
-                  {event.title}
-                </div>
-              ))}
+              <div className="mt-2 flex flex-col gap-1">
+                {dayEvents.map((event) => (
+                  <div
+                    key={event.id}
+                    className="bg-blue-200 text-xs text-center px-2 py-1 rounded-md w-full overflow-hidden whitespace-nowrap overflow-ellipsis"
+                  >
+                    {event.title}
+                  </div>
+                ))}
+              </div>
             </div>
           );
         })}
