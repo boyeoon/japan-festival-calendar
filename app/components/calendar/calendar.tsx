@@ -46,7 +46,7 @@ export default function Calendar() {
   }
 
   return (
-    <div className="w-full max-w-xl mx-auto mt-8">
+    <div className="w-full max-w-xl mx-auto my-8">
       {/* 달력 헤더 */}
       <div className="flex justify-between items-center mb-4">
         <button onClick={prevMonth} className="p-2 bg-gray-200 rounded-md">
@@ -63,8 +63,13 @@ export default function Calendar() {
       {/* 달력 테이블 */}
       <div className="grid grid-cols-7 gap-1 border border-gray-300 p-2 rounded-md">
         {/* 요일 헤더 */}
-        {["일", "월", "화", "수", "목", "금", "토"].map((day) => (
-          <div key={day} className="text-center font-bold p-2 bg-gray-100">
+        {["일", "월", "화", "수", "목", "금", "토"].map((day, index) => (
+          <div
+            key={day}
+            className={`text-center font-bold p-2 bg-gray-100 ${
+              index === 0 ? "text-red-500" : index === 6 ? "text-blue-500" : ""
+            }`}
+          >
             {day}
           </div>
         ))}
@@ -77,6 +82,8 @@ export default function Calendar() {
         {/* 날짜 출력 */}
         {[...Array(currentDate.daysInMonth())].map((_, i) => {
           const day = i + 1;
+          const date = currentDate.date(day);
+          const dayOfWeek = date.day(); // 0 = 일요일, 6 = 토요일
           const hasEvent = events.some((e) => dayjs(e.date).date() === day);
 
           return (
@@ -84,6 +91,12 @@ export default function Calendar() {
               key={day}
               className={`p-4 text-center border ${
                 hasEvent ? "bg-blue-100 border-blue-500" : "bg-white"
+              } ${
+                dayOfWeek === 0
+                  ? "text-red-500"
+                  : dayOfWeek === 6
+                  ? "text-blue-500"
+                  : ""
               }`}
             >
               {day}
