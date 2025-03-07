@@ -29,7 +29,7 @@ export async function POST() {
 
     return NextResponse.json({ message: "이벤트 데이터 저장 완료" });
   } catch (error) {
-    console.error("❌ 이벤트 데이터 저장 실패:", error);
+    console.error("이벤트 데이터 저장 실패:", error);
     return NextResponse.json({ message: "서버 오류" }, { status: 500 });
   }
 }
