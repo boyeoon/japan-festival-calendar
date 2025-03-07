@@ -10,6 +10,8 @@ interface Event {
   id: number;
   title: string;
   date: string;
+  link: string;
+  source: string;
 }
 
 interface Holiday {
@@ -116,14 +118,11 @@ export default function Calendar() {
           );
 
           return (
-            <div
-              key={day}
-              className="p-4 h-32 flex flex-col border rounded-md relative"
-            >
+            <div key={day} className="p-4 h-32 flex flex-col border rounded-md">
               {/* 날짜 표시 - 왼쪽 정렬 */}
               <div className="flex items-center">
                 <span
-                  className={`font-bold ${
+                  className={`font-semibold ${
                     holiday || dayOfWeek === 0
                       ? "text-red-500"
                       : dayOfWeek === 6
@@ -136,21 +135,24 @@ export default function Calendar() {
 
                 {/* 공휴일이 있으면 날짜 옆에 표시 */}
                 {holiday && (
-                  <span className="ml-2 text-red-500 text-sm font-bold">
+                  <span className="ml-2 text-red-500 text-sm font-medium">
                     {holiday.localName}
                   </span>
                 )}
               </div>
 
-              {/* 이벤트 표시 */}
+              {/* 이벤트 표시 (클릭 시 링크 이동) */}
               <div className="mt-2 flex flex-col gap-1">
                 {dayEvents.map((event) => (
-                  <div
+                  <a
                     key={event.id}
-                    className="bg-blue-200 text-xs text-center px-2 py-1 rounded-md w-full overflow-hidden whitespace-nowrap overflow-ellipsis"
+                    href={event.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="bg-green-200 text-xs text-center px-2 py-1 rounded-md w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-green-300 transition"
                   >
                     {event.title}
-                  </div>
+                  </a>
                 ))}
               </div>
             </div>
