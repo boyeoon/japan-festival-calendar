@@ -2,15 +2,16 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
+const LINESeedKR = localFont({
+  src: "./font/LINESeedKR-Rg.woff2",
+  variable: "--font-line-kr",
+  display: "swap",
 });
-const geistMono = localFont({
-  src: "./fonts/GeistMonoVF.woff",
-  variable: "--font-geist-mono",
-  weight: "100 900",
+
+const LINESeedJP_OTF_Rg = localFont({
+  src: "./font/LINESeedJP_OTF_Rg.woff2",
+  variable: "--font-line-jp",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
@@ -25,8 +26,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <link rel="icon" href="/favicon.ico" sizes="any" />
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${LINESeedKR.variable} ${LINESeedJP_OTF_Rg.variable} antialiased`}
       >
         {children}
       </body>

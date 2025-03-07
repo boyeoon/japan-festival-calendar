@@ -5,7 +5,7 @@ import Calendar from "@/components/calendar/calendar";
 
 export default function Home() {
   return (
-    <div>
+    <div className="font-LINESeedKR">
       <Header />
       <main>
         <Calendar />

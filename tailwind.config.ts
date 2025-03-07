@@ -12,6 +12,10 @@ export default {
         background: "var(--background)",
         foreground: "var(--foreground)",
       },
+      fontFamily: {
+        LINESeedKR: ["var(--font-line-kr)"],
+        LINESeedJP: ["var(--font-line-jp)"],
+      },
     },
   },
   plugins: [],
