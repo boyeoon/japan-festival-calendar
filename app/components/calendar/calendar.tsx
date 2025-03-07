@@ -12,10 +12,17 @@ interface Event {
   date: string;
 }
 
+interface Holiday {
+  date: string;
+  localName: string;
+}
+
 export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [events, setEvents] = useState<Event[]>([]);
+  const [holidays, setHolidays] = useState<Holiday[]>([]);
 
+  // 이벤트
   async function fetchEvents() {
     try {
       const response = await fetch(
@@ -33,8 +40,26 @@ export default function Calendar() {
     }
   }
 
+  // 공휴일
+  async function fetchHolidays() {
+    try {
+      const response = await fetch(`/api/holidays?year=${currentDate.year()}`);
+      if (!response.ok) {
+        throw new Error(
+          `공휴일 데이터를 불러오는 데 실패했습니다. 상태 코드: ${response.status}`
+        );
+      }
+      const data: Holiday[] = await response.json();
+      console.log("공휴일 데이터:", data);
+      setHolidays(data);
+    } catch (error) {
+      console.error("공휴일 데이터 가져오기 실패:", error);
+    }
+  }
+
   useEffect(() => {
     fetchEvents();
+    fetchHolidays();
   }, [currentDate]);
 
   function prevMonth() {
@@ -84,7 +109,11 @@ export default function Calendar() {
           const day = i + 1;
           const date = currentDate.date(day);
           const dayOfWeek = date.day(); // 0 = 일요일, 6 = 토요일
+
           const dayEvents = events.filter((e) => dayjs(e.date).date() === day);
+          const holiday = holidays.find((h) =>
+            dayjs(h.date).isSame(date, "day")
+          );
 
           return (
             <div
@@ -98,16 +127,23 @@ export default function Calendar() {
               }`}
             >
               <span className="font-semibold">{day}</span>
-              <div className="mt-1 w-full flex flex-col items-center">
-                {dayEvents.map((event) => (
-                  <div
-                    key={event.id}
-                    className="bg-blue-200 text-xs text-center px-2 py-1 rounded-md w-full overflow-hidden whitespace-nowrap overflow-ellipsis"
-                  >
-                    {event.title}
-                  </div>
-                ))}
-              </div>
+
+              {/* 공휴일 표시 */}
+              {holiday && (
+                <div className="mt-1 bg-red-300 text-xs px-2 py-1 rounded-md w-full text-center">
+                  {holiday.localName}
+                </div>
+              )}
+
+              {/* 이벤트 표시 */}
+              {dayEvents.map((event) => (
+                <div
+                  key={event.id}
+                  className="bg-blue-200 text-xs text-center px-2 py-1 rounded-md w-full overflow-hidden whitespace-nowrap overflow-ellipsis"
+                >
+                  {event.title}
+                </div>
+              ))}
             </div>
           );
         })}
