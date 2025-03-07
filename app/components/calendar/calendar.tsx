@@ -46,13 +46,13 @@ export default function Calendar() {
   }
 
   return (
-    <div className="w-full max-w-xl mx-auto my-8">
+    <div className="w-full max-w-5xl mx-auto mt-8 p-4">
       {/* 달력 헤더 */}
       <div className="flex justify-between items-center mb-4">
         <button onClick={prevMonth} className="p-2 bg-gray-200 rounded-md">
           ◀
         </button>
-        <h2 className="text-xl font-semibold">
+        <h2 className="text-2xl font-semibold">
           {currentDate.format("YYYY년 MM월")}
         </h2>
         <button onClick={nextMonth} className="p-2 bg-gray-200 rounded-md">
@@ -76,7 +76,7 @@ export default function Calendar() {
 
         {/* 빈 칸 채우기 (달의 시작 요일 고려) */}
         {[...Array(currentDate.startOf("month").day())].map((_, i) => (
-          <div key={`empty-${i}`} className="p-4"></div>
+          <div key={`empty-${i}`} className="p-6"></div>
         ))}
 
         {/* 날짜 출력 */}
@@ -84,14 +84,12 @@ export default function Calendar() {
           const day = i + 1;
           const date = currentDate.date(day);
           const dayOfWeek = date.day(); // 0 = 일요일, 6 = 토요일
-          const hasEvent = events.some((e) => dayjs(e.date).date() === day);
+          const dayEvents = events.filter((e) => dayjs(e.date).date() === day);
 
           return (
             <div
               key={day}
-              className={`p-4 text-center border ${
-                hasEvent ? "bg-blue-100 border-blue-500" : "bg-white"
-              } ${
+              className={`p-6 h-32 flex flex-col items-center justify-start border rounded-md ${
                 dayOfWeek === 0
                   ? "text-red-500"
                   : dayOfWeek === 6
@@ -99,7 +97,17 @@ export default function Calendar() {
                   : ""
               }`}
             >
-              {day}
+              <span className="font-semibold">{day}</span>
+              <div className="mt-1 w-full flex flex-col items-center">
+                {dayEvents.map((event) => (
+                  <div
+                    key={event.id}
+                    className="bg-blue-200 text-xs text-center px-2 py-1 rounded-md w-full overflow-hidden whitespace-nowrap overflow-ellipsis"
+                  >
+                    {event.title}
+                  </div>
+                ))}
+              </div>
             </div>
           );
         })}
