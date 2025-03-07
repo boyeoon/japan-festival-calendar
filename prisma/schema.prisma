@@ -17,5 +17,6 @@ model Event {
   id    Int    @id @default(autoincrement())
   title String
   date  DateTime
+  link  String  // 이벤트 상세 페이지 링크 추가
+  source String // 이벤트 출처 (예: "요요기 공원")
 }
-
