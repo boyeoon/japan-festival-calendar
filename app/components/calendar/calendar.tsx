@@ -118,15 +118,20 @@ export default function Calendar() {
           return (
             <div
               key={day}
-              className={`p-6 h-32 flex flex-col items-center justify-start border rounded-md ${
-                dayOfWeek === 0
-                  ? "text-red-500"
-                  : dayOfWeek === 6
-                  ? "text-blue-500"
-                  : ""
-              }`}
+              className={`p-6 h-32 flex flex-col items-center justify-start border rounded-md`}
             >
-              <span className="font-semibold">{day}</span>
+              {/* 날짜 표시 - 공휴일이면 빨간색, 그렇지 않으면 기본 요일 색상 유지 */}
+              <span
+                className={`font-semibold ${
+                  holiday || dayOfWeek === 0
+                    ? "text-red-500"
+                    : dayOfWeek === 6
+                    ? "text-blue-500"
+                    : "text-black"
+                }`}
+              >
+                {day}
+              </span>
 
               {/* 공휴일 표시 */}
               {holiday && (
