@@ -8,7 +8,7 @@ const LINESeedKR = localFont({
   display: "swap",
 });
 
-const LINESeedJP_OTF_Rg = localFont({
+const LINESeedJP = localFont({
   src: "./font/LINESeedJP_OTF_Rg.woff2",
   variable: "--font-line-jp",
   display: "swap",
@@ -28,7 +28,7 @@ export default function RootLayout({
     <html lang="en">
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <body
-        className={`${LINESeedKR.variable} ${LINESeedJP_OTF_Rg.variable} antialiased`}
+        className={`${LINESeedKR.variable} ${LINESeedJP.variable} antialiased`}
       >
         {children}
       </body>
