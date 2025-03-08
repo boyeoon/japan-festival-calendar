@@ -161,7 +161,7 @@ export default function Calendar() {
                     href={event.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-green-200 text-xs text-center px-2 py-1 w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-green-300 transition rounded-md"
+                    className="bg-green-200 text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-green-300 transition rounded-md"
                   >
                     {event.title}
                   </a>
