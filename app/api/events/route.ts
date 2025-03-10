@@ -26,6 +26,13 @@ export async function GET(req: Request) {
           ),
         },
       },
+      select: {
+        id: true,
+        date: true,
+        link: true,
+        title_ja: true,
+        title_ko: true,
+      },
     });
 
     return NextResponse.json(events);

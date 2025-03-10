@@ -3,12 +3,14 @@
 import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ja"; // 일본어 날짜 지원
+import LanguageButton from "@/components/button/languagebutton";
 
 dayjs.locale("ja");
 
 interface Event {
   id: number;
-  title: string;
+  title_ja: string;
+  title_ko: string;
   date: string;
   link: string;
   source: string;
@@ -23,6 +25,9 @@ export default function Calendar() {
   const [currentDate, setCurrentDate] = useState(dayjs());
   const [events, setEvents] = useState<Event[]>([]);
   const [holidays, setHolidays] = useState<Holiday[]>([]);
+  const [lang, setLang] = useState<string>(
+    () => localStorage.getItem("language") || "ja"
+  );
 
   // 이벤트
   async function fetchEvents() {
@@ -35,7 +40,7 @@ export default function Calendar() {
       if (!response.ok) {
         throw new Error("이벤트 데이터를 불러오는 데 실패했습니다.");
       }
-      const data: Event[] = await response.json();
+      const data = await response.json();
       setEvents(data);
     } catch (error) {
       console.error(error);
@@ -74,13 +79,18 @@ export default function Calendar() {
 
   return (
     <div className="w-full max-w-5xl mx-auto mt-8 p-4">
+      {/* 언어 변경 버튼 */}
+      <div className="mb-4 flex justify-end">
+        <LanguageButton onChange={setLang} />
+      </div>
+
       {/* 달력 헤더 */}
       <div className="flex justify-between items-center mb-4">
         <button onClick={prevMonth} className="p-2 bg-gray-200 rounded-md">
           ◀
         </button>
         <h2 className="text-2xl font-semibold">
-          {currentDate.format("YYYY년 MM월")}
+          {currentDate.format("YYYY年 MM月")}
         </h2>
         <button onClick={nextMonth} className="p-2 bg-gray-200 rounded-md">
           ▶
@@ -90,7 +100,7 @@ export default function Calendar() {
       {/* 달력 테이블 */}
       <div className="grid grid-cols-7 gap-1 border border-gray-300 p-2 rounded-md">
         {/* 요일 헤더 */}
-        {["일", "월", "화", "수", "목", "금", "토"].map((day, index) => (
+        {["日", "月", "火", "水", "木", "金", "土"].map((day, index) => (
           <div
             key={day}
             className={`text-center font-bold p-2 bg-gray-100 ${
@@ -161,9 +171,9 @@ export default function Calendar() {
                     href={event.link}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="bg-green-200 text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-green-300 transition rounded-md"
+                    className="bg-[#A2D4FF] text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-[#70b9ff] transition rounded-md"
                   >
-                    {event.title}
+                    {lang === "ko" ? event.title_ko : event.title_ja}{" "}
                   </a>
                 ))}
               </div>
