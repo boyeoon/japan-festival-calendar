@@ -111,6 +111,7 @@ export default function Calendar() {
         onClose={closeModal}
         date={selectedDate || ""}
         events={selectedEvents}
+        lang={lang}
       />
 
       <div className="w-full max-w-5xl mx-auto mt-8 p-4">
@@ -203,7 +204,7 @@ export default function Calendar() {
                   {/* 총 이벤트 개수 박스 */}
                   {totalEventCount > 3 && (
                     <span className="bg-gray-300 text-xs text-black px-2 py-1 rounded-md">
-                      {totalEventCount}개
+                      {totalEventCount}
                     </span>
                   )}
                 </div>

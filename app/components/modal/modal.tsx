@@ -3,11 +3,13 @@ export default function Modal({
   onClose,
   date,
   events,
+  lang,
 }: {
   isOpen: boolean;
   onClose: () => void;
   date: string;
   events: { title_ja: string; title_ko: string; link: string }[];
+  lang: string;
 }) {
   if (!isOpen) return null;
 
@@ -21,7 +23,7 @@ export default function Modal({
         onClick={(e) => e.stopPropagation()} // 내부 클릭 시 닫히지 않도록 방지
       >
         {/* 모달 헤더 */}
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-12">
           <h2 className="text-xl font-bold">{date}</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-black">
             ✕
@@ -39,7 +41,7 @@ export default function Modal({
                 rel="noopener noreferrer"
                 className="block bg-[#A2D4FF] text-lg text-center px-4 py-2 rounded-md hover:bg-[#70b9ff] transition"
               >
-                {event.title_ja} / {event.title_ko}
+                {lang === "ko" ? event.title_ko : event.title_ja}
               </a>
             ))
           ) : (
