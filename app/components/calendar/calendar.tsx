@@ -33,9 +33,7 @@ export default function Calendar() {
   const [holidays, setHolidays] = useState<Holiday[]>([]);
 
   // 다국어
-  const [lang, setLang] = useState<string>(
-    () => localStorage.getItem("language") || "ja"
-  );
+  const [lang, setLang] = useState<string>("ja");
 
   // 모달
   const [selectedDate, setSelectedDate] = useState<string | null>(null);
