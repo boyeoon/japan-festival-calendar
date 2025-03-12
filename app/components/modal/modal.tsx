@@ -47,7 +47,11 @@ export default function Modal({
               </a>
             ))
           ) : (
-            <p className="text-gray-500 text-center">이벤트가 없습니다.</p>
+            <p className="text-gray-500 text-center">
+              {lang === "ko"
+                ? "이벤트가 없습니다."
+                : "フェスティバルがありません。"}
+            </p>
           )}
         </div>
       </div>
