@@ -5,9 +5,14 @@ export default function LanguageButton({
 }: {
   onChange: (lang: string) => void;
 }) {
-  const [lang, setLang] = useState<string>(() => {
-    return localStorage.getItem("language") || "ja";
-  });
+  const [lang, setLang] = useState<string>("ja"); // 기본값을 'ja'로 설정
+
+  useEffect(() => {
+    const storedLang = localStorage.getItem("language");
+    if (storedLang) {
+      setLang(storedLang);
+    }
+  }, []);
 
   useEffect(() => {
     localStorage.setItem("language", lang);
