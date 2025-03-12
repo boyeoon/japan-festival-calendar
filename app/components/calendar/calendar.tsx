@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ja"; // 일본어 날짜 지원
 import LanguageButton from "@/components/button/languagebutton";
+import Modal from "@/components/modal/modal";
 
 dayjs.locale("ja");
 
@@ -22,12 +23,37 @@ interface Holiday {
 }
 
 export default function Calendar() {
+  // 달력
   const [currentDate, setCurrentDate] = useState(dayjs());
+
+  // 이벤트
   const [events, setEvents] = useState<Event[]>([]);
+
+  // 공휴일
   const [holidays, setHolidays] = useState<Holiday[]>([]);
+
+  // 다국어
   const [lang, setLang] = useState<string>(
     () => localStorage.getItem("language") || "ja"
   );
+
+  // 모달
+  const [selectedDate, setSelectedDate] = useState<string | null>(null);
+  const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
+  // 모달
+  function openModal(date: string, dayEvents: Event[]) {
+    setSelectedDate(date);
+    setSelectedEvents(dayEvents);
+    setIsModalOpen(true);
+  }
+
+  function closeModal() {
+    setIsModalOpen(false);
+    setSelectedDate(null);
+    setSelectedEvents([]);
+  }
 
   // 이벤트
   async function fetchEvents() {
@@ -78,108 +104,128 @@ export default function Calendar() {
   }
 
   return (
-    <div className="w-full max-w-5xl mx-auto mt-8 p-4">
-      {/* 언어 변경 버튼 */}
-      <div className="mb-4 flex justify-end">
-        <LanguageButton onChange={setLang} />
-      </div>
+    <div>
+      {/* 모달 컴포넌트 */}
+      <Modal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        date={selectedDate || ""}
+        events={selectedEvents}
+      />
 
-      {/* 달력 헤더 */}
-      <div className="flex justify-between items-center mb-4">
-        <button onClick={prevMonth} className="p-2 bg-gray-200 rounded-md">
-          ◀
-        </button>
-        <h2 className="text-2xl font-semibold">
-          {currentDate.format("YYYY年 MM月")}
-        </h2>
-        <button onClick={nextMonth} className="p-2 bg-gray-200 rounded-md">
-          ▶
-        </button>
-      </div>
+      <div className="w-full max-w-5xl mx-auto mt-8 p-4">
+        {/* 언어 변경 버튼 */}
+        <div className="mb-4 flex justify-end">
+          <LanguageButton onChange={setLang} />
+        </div>
 
-      {/* 달력 테이블 */}
-      <div className="grid grid-cols-7 gap-1 border border-gray-300 p-2 rounded-md">
-        {/* 요일 헤더 */}
-        {["日", "月", "火", "水", "木", "金", "土"].map((day, index) => (
-          <div
-            key={day}
-            className={`text-center font-bold p-2 bg-gray-100 ${
-              index === 0 ? "text-red-500" : index === 6 ? "text-blue-500" : ""
-            }`}
-          >
-            {day}
-          </div>
-        ))}
+        {/* 달력 헤더 */}
+        <div className="flex justify-between items-center mb-4">
+          <button onClick={prevMonth} className="p-2 bg-gray-200 rounded-md">
+            ◀
+          </button>
+          <h2 className="text-2xl font-semibold">
+            {currentDate.format("YYYY年 MM月")}
+          </h2>
+          <button onClick={nextMonth} className="p-2 bg-gray-200 rounded-md">
+            ▶
+          </button>
+        </div>
 
-        {/* 빈 칸 채우기 (달의 시작 요일 고려) */}
-        {[...Array(currentDate.startOf("month").day())].map((_, i) => (
-          <div key={`empty-${i}`} className="p-6"></div>
-        ))}
+        {/* 달력 테이블 */}
+        <div className="grid grid-cols-7 gap-1 border border-gray-300 p-2 rounded-md">
+          {/* 요일 헤더 */}
+          {["日", "月", "火", "水", "木", "金", "土"].map((day, index) => (
+            <div
+              key={day}
+              className={`text-center font-bold p-2 bg-gray-100 ${
+                index === 0
+                  ? "text-red-500"
+                  : index === 6
+                  ? "text-blue-500"
+                  : ""
+              }`}
+            >
+              {day}
+            </div>
+          ))}
 
-        {/* 날짜 출력 */}
-        {[...Array(currentDate.daysInMonth())].map((_, i) => {
-          const day = i + 1;
-          const date = currentDate.date(day);
-          const dayOfWeek = date.day(); // 0 = 일요일, 6 = 토요일
+          {/* 빈 칸 채우기 (달의 시작 요일 고려) */}
+          {[...Array(currentDate.startOf("month").day())].map((_, i) => (
+            <div key={`empty-${i}`} className="p-6"></div>
+          ))}
 
-          const dayEvents = events.filter((e) => dayjs(e.date).date() === day);
-          const displayedEvents = dayEvents.slice(0, 3); // 최대 3개 표시
-          const totalEventCount = dayEvents.length; // 총 이벤트 개수
+          {/* 날짜 출력 */}
+          {[...Array(currentDate.daysInMonth())].map((_, i) => {
+            const day = i + 1;
+            const date = currentDate.date(day).format("YYYY-MM-DD");
+            // const dayOfWeek = date.day(); // 0 = 일요일, 6 = 토요일
 
-          const holiday = holidays.find((h) =>
-            dayjs(h.date).isSame(date, "day")
-          );
+            const dayEvents = events.filter(
+              (e) => dayjs(e.date).date() === day
+            );
+            const displayedEvents = dayEvents.slice(0, 3); // 최대 3개 표시
+            const totalEventCount = dayEvents.length; // 총 이벤트 개수
 
-          return (
-            <div key={day} className="h-32 flex flex-col border rounded-md">
-              {/* 날짜와 공휴일 + 추가 이벤트 개수 표시 */}
-              <div className="p-4 flex items-center justify-between">
-                <div className="flex items-center">
-                  <span
-                    className={`font-semibold ${
-                      holiday || dayOfWeek === 0
-                        ? "text-red-500"
-                        : dayOfWeek === 6
-                        ? "text-blue-500"
-                        : "text-black"
-                    }`}
-                  >
-                    {day}
-                  </span>
+            const holiday = holidays.find((h) =>
+              dayjs(h.date).isSame(date, "day")
+            );
 
-                  {/* 공휴일이 있으면 날짜 옆에 표시 */}
-                  {holiday && (
-                    <span className="ml-2 text-red-500 text-sm font-medium">
-                      {holiday.localName}
+            return (
+              <div
+                key={day}
+                className="h-32 flex flex-col border rounded-md cursor-pointer hover:bg-gray-100"
+                onClick={() => openModal(date, dayEvents)}
+              >
+                {/* 날짜와 공휴일 + 추가 이벤트 개수 표시 */}
+                <div className="p-4 flex items-center justify-between">
+                  <div className="flex items-center">
+                    <span
+                      className={`font-semibold ${
+                        holiday || dayjs(date).day() === 0
+                          ? "text-red-500"
+                          : dayjs(date).day() === 6
+                          ? "text-blue-500"
+                          : "text-black"
+                      }`}
+                    >
+                      {day}
+                    </span>
+
+                    {/* 공휴일이 있으면 날짜 옆에 표시 */}
+                    {holiday && (
+                      <span className="ml-2 text-red-500 text-sm font-medium">
+                        {holiday.localName}
+                      </span>
+                    )}
+                  </div>
+
+                  {/* 총 이벤트 개수 박스 */}
+                  {totalEventCount > 3 && (
+                    <span className="bg-gray-300 text-xs text-black px-2 py-1 rounded-md">
+                      {totalEventCount}개
                     </span>
                   )}
                 </div>
 
-                {/* 총 이벤트 개수 박스 */}
-                {totalEventCount > 3 && (
-                  <span className="bg-gray-300 text-xs text-black px-2 py-1 rounded-md">
-                    {totalEventCount}개
-                  </span>
-                )}
+                {/* 이벤트 그룹 (최대 3개만 표시) */}
+                <div className="flex flex-col gap-1 w-full">
+                  {displayedEvents.map((event) => (
+                    <a
+                      key={event.id}
+                      href={event.link}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="bg-[#A2D4FF] text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-[#70b9ff] transition rounded-md"
+                    >
+                      {lang === "ko" ? event.title_ko : event.title_ja}{" "}
+                    </a>
+                  ))}
+                </div>
               </div>
-
-              {/* 이벤트 그룹 (최대 3개만 표시) */}
-              <div className="flex flex-col gap-1 w-full">
-                {displayedEvents.map((event) => (
-                  <a
-                    key={event.id}
-                    href={event.link}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="bg-[#A2D4FF] text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-[#70b9ff] transition rounded-md"
-                  >
-                    {lang === "ko" ? event.title_ko : event.title_ja}{" "}
-                  </a>
-                ))}
-              </div>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
     </div>
   );
