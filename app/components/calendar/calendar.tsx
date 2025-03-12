@@ -217,7 +217,9 @@ export default function Calendar() {
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="bg-[#A2D4FF] text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-[#70b9ff] transition rounded-md"
+                      className={`bg-[#A2D4FF] text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-[#70b9ff] transition rounded-md ${
+                        lang === "ko" ? "font-LINESeedKR" : "font-LINESeedJP"
+                      }`}
                     >
                       {lang === "ko" ? event.title_ko : event.title_ja}{" "}
                     </a>

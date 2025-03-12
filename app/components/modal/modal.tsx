@@ -39,7 +39,9 @@ export default function Modal({
                 href={event.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="block bg-[#A2D4FF] text-lg text-center px-4 py-2 rounded-md hover:bg-[#70b9ff] transition"
+                className={`block bg-[#A2D4FF] text-lg text-center px-4 py-2 rounded-md hover:bg-[#70b9ff] transition ${
+                  lang === "ko" ? "font-LINESeedKR" : "font-LINESeedJP"
+                }`}
               >
                 {lang === "ko" ? event.title_ko : event.title_ja}
               </a>

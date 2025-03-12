@@ -22,7 +22,9 @@ export default function LanguageButton({
     <div className="flex gap-2">
       <button
         className={`px-4 py-2 rounded-md ${
-          lang === "ja" ? "bg-blue-500 text-white" : "bg-gray-200"
+          lang === "ja"
+            ? "bg-blue-500 text-white font-LINESeedJP"
+            : "bg-gray-200 font-LINESeedJP"
         }`}
         onClick={() => handleChange("ja")}
       >
@@ -30,7 +32,9 @@ export default function LanguageButton({
       </button>
       <button
         className={`px-4 py-2 rounded-md ${
-          lang === "ko" ? "bg-blue-500 text-white" : "bg-gray-200"
+          lang === "ko"
+            ? "bg-blue-500 text-white font-LINESeedKR"
+            : "bg-gray-200 font-LINESeedKR"
         }`}
         onClick={() => handleChange("ko")}
       >
