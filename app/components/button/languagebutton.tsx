@@ -1,5 +1,3 @@
-"use client";
-
 import { useState, useEffect } from "react";
 
 export default function LanguageButton({
@@ -7,10 +5,12 @@ export default function LanguageButton({
 }: {
   onChange: (lang: string) => void;
 }) {
-  const [lang, setLang] = useState<string>("ja"); // 기본값을 'ja'로 설정
+  // 서버에서 localStorage 참조 금지
+  const [lang, setLang] = useState<string>("ja"); // 기본값 'ja'
 
   useEffect(() => {
     if (typeof window !== "undefined") {
+      // 브라우저에서만 실행
       const storedLang = localStorage.getItem("language");
       if (storedLang) {
         setLang(storedLang);
@@ -19,7 +19,9 @@ export default function LanguageButton({
   }, []);
 
   useEffect(() => {
-    localStorage.setItem("language", lang);
+    if (typeof window !== "undefined") {
+      localStorage.setItem("language", lang);
+    }
   }, [lang]);
 
   const handleChange = (newLang: string) => {

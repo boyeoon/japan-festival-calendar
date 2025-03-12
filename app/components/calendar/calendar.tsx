@@ -91,6 +91,14 @@ export default function Calendar() {
   }
 
   useEffect(() => {
+    if (typeof window !== "undefined") {
+      // 클라이언트 환경에서만 실행
+      const storedLang = localStorage.getItem("language");
+      if (storedLang) {
+        setLang(storedLang);
+      }
+    }
+
     fetchEvents();
     fetchHolidays();
   }, [currentDate]);
