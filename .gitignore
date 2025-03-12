@@ -41,4 +41,3 @@ next-env.d.ts
 
 # crawling data
 app/scripts/
-app/events.json
