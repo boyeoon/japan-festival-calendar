@@ -18,7 +18,7 @@ export async function GET(req: Request) {
     }
 
     // events.json 파일 경로 설정
-    const filePath = path.join(process.cwd(), "app", "events.json");
+    const filePath = path.join(process.cwd(), "app", "crawlYoyogi.json");
 
     if (!fs.existsSync(filePath)) {
       return NextResponse.json(
