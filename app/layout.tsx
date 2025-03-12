@@ -3,13 +3,13 @@ import localFont from "next/font/local";
 import "./globals.css";
 
 const LINESeedKR = localFont({
-  src: "./font/LINESeedKR-Rg.woff2",
+  src: "./fonts/LINESeedKR-Rg.woff2",
   variable: "--font-line-kr",
   display: "swap",
 });
 
 const LINESeedJP = localFont({
-  src: "./font/LINESeedJP_OTF_Rg.woff2",
+  src: "./fonts/LINESeedJP_OTF_Rg.woff2",
   variable: "--font-line-jp",
   display: "swap",
 });
