@@ -13,8 +13,7 @@
     "next": "15.0.3",
     "puppeteer": "^24.4.0",
     "react": "19.0.0-rc-66855b96-20241106",
-    "react-dom": "19.0.0-rc-66855b96-20241106",
-    "sqlite3": "^5.1.7"
+    "react-dom": "19.0.0-rc-66855b96-20241106"
   },
   "devDependencies": {
     "@types/node": "^20.17.23",
