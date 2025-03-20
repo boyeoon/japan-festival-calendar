@@ -82,7 +82,7 @@ export default function Calendar() {
         );
       }
       const data: Holiday[] = await response.json();
-      console.log("공휴일 데이터:", data);
+      // console.log("공휴일 데이터:", data);
       setHolidays(data);
     } catch (error) {
       console.error("공휴일 데이터 가져오기 실패:", error);
