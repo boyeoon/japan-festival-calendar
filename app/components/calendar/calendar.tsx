@@ -133,7 +133,7 @@ export default function Calendar() {
             ◀
           </button>
           <h2 className="text-2xl font-semibold">
-            {currentDate.format("YYYY年 MM月")}
+            {currentDate.format("YYYY. MM.")}
           </h2>
           <button onClick={nextMonth} className="p-2 bg-gray-200 rounded-md">
             ▶
@@ -143,20 +143,22 @@ export default function Calendar() {
         {/* 달력 테이블 */}
         <div className="grid grid-cols-7 gap-1 border border-gray-300 p-2 rounded-md">
           {/* 요일 헤더 */}
-          {["日", "月", "火", "水", "木", "金", "土"].map((day, index) => (
-            <div
-              key={day}
-              className={`text-center font-bold p-2 bg-gray-100 ${
-                index === 0
-                  ? "text-red-500"
-                  : index === 6
-                  ? "text-blue-500"
-                  : ""
-              }`}
-            >
-              {day}
-            </div>
-          ))}
+          {["SUN", "MON", "TUE", "WEB", "THU", "FRI", "SAT"].map(
+            (day, index) => (
+              <div
+                key={day}
+                className={`text-center font-bold p-2 bg-gray-100 ${
+                  index === 0
+                    ? "text-red-500"
+                    : index === 6
+                    ? "text-blue-500"
+                    : ""
+                }`}
+              >
+                {day}
+              </div>
+            )
+          )}
 
           {/* 빈 칸 채우기 (달의 시작 요일 고려) */}
           {[...Array(currentDate.startOf("month").day())].map((_, i) => (
