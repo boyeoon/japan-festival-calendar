@@ -5,6 +5,7 @@ import dayjs from "dayjs";
 import "dayjs/locale/ja"; // 일본어 날짜 지원
 import LanguageButton from "@/components/button/languagebutton";
 import Modal from "@/components/modal/modal";
+import Weekdays from "@/components/calendar/weekdays";
 
 dayjs.locale("ja");
 
@@ -143,22 +144,20 @@ export default function Calendar() {
         {/* 달력 테이블 */}
         <div className="grid grid-cols-7 gap-1 border border-gray-300 p-2 rounded-md">
           {/* 요일 헤더 */}
-          {["SUN", "MON", "TUE", "WEB", "THU", "FRI", "SAT"].map(
-            (day, index) => (
-              <div
-                key={day}
-                className={`text-center font-bold p-2 bg-gray-100 ${
-                  index === 0
-                    ? "text-red-500"
-                    : index === 6
-                    ? "text-blue-500"
-                    : ""
-                }`}
-              >
-                {day}
-              </div>
-            )
-          )}
+          {(Weekdays[lang] || Weekdays["en"]).map((day, index) => (
+            <div
+              key={day}
+              className={`text-center font-bold p-2 bg-gray-100 ${
+                index === 0
+                  ? "text-red-500"
+                  : index === 6
+                  ? "text-blue-500"
+                  : ""
+              }`}
+            >
+              {day}
+            </div>
+          ))}
 
           {/* 빈 칸 채우기 (달의 시작 요일 고려) */}
           {[...Array(currentDate.startOf("month").day())].map((_, i) => (
@@ -220,9 +219,11 @@ export default function Calendar() {
 
                 {/* 이벤트 그룹 (최대 3개만 표시) */}
                 <div className="flex flex-col gap-1 w-full">
-                  {displayedEvents.map((event) => (
+                  {displayedEvents.map((event, index) => (
                     <a
-                      key={event.id}
+                      key={`${event.id || event.title_ja}_${
+                        event.date
+                      }_${index}`}
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
