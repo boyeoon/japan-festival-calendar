@@ -1,4 +1,4 @@
-export default function Modal({
+export default function DateModal({
   isOpen,
   onClose,
   date,
@@ -21,11 +21,11 @@ export default function Modal({
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      onClick={onClose} // 바깥 클릭 시 모달 닫기
+      onClick={(e) => e.target === e.currentTarget && onClose()} // 바깥 클릭 시 모달 닫기
     >
       <div
         className="bg-white p-6 rounded-lg w-[400px] max-w-full shadow-lg"
-        onClick={(e) => e.stopPropagation()} // 내부 클릭 시 닫히지 않도록 방지
+        onClick={(e) => e.stopPropagation()}
       >
         {/* 모달 헤더 */}
         <div className="flex justify-between items-center mb-12">
