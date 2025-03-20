@@ -7,62 +7,41 @@ export default function LanguageButton({
 }: {
   onChange: (lang: string) => void;
 }) {
-  // 서버에서 localStorage 참조 금지
-  const [lang, setLang] = useState<string>("ja"); // 기본값 'ja'
-
-  useEffect(() => {
+  const [lang, setLang] = useState<string>(() => {
     if (typeof window !== "undefined") {
-      // 브라우저에서만 실행
-      const storedLang = localStorage.getItem("language");
-      if (storedLang) {
-        setLang(storedLang);
-      }
+      return localStorage.getItem("language") || "ja";
     }
-  }, []);
+    return "ja";
+  });
 
   useEffect(() => {
     if (typeof window !== "undefined") {
       localStorage.setItem("language", lang);
+      onChange(lang);
     }
-  }, [lang]);
+  }, [lang, onChange]);
 
   const handleChange = (newLang: string) => {
-    setLang(newLang);
-    onChange(newLang);
+    if (lang !== newLang) setLang(newLang);
   };
 
   return (
     <div className="flex gap-2">
-      <button
-        className={`px-4 py-2 rounded-md ${
-          lang === "ja"
-            ? "bg-blue-500 text-white font-LINESeedJP"
-            : "bg-gray-200 font-LINESeedJP"
-        }`}
-        onClick={() => handleChange("ja")}
-      >
-        日本語
-      </button>
-      <button
-        className={`px-4 py-2 rounded-md ${
-          lang === "ko"
-            ? "bg-blue-500 text-white font-LINESeedKR"
-            : "bg-gray-200 font-LINESeedKR"
-        }`}
-        onClick={() => handleChange("ko")}
-      >
-        한국어
-      </button>
-      <button
-        className={`px-4 py-2 rounded-md ${
-          lang === "en"
-            ? "bg-blue-500 text-white font-LINESeedJP"
-            : "bg-gray-200 font-LINESeedJP"
-        }`}
-        onClick={() => handleChange("en")}
-      >
-        English
-      </button>
+      {[
+        { code: "ja", label: "日本語", font: "font-LINESeedJP" },
+        { code: "ko", label: "한국어", font: "font-LINESeedKR" },
+        { code: "en", label: "English", font: "font-LINESeedJP" },
+      ].map(({ code, label, font }) => (
+        <button
+          key={code}
+          className={`px-4 py-2 rounded-md ${
+            lang === code ? "bg-blue-500 text-white" : "bg-gray-200"
+          } ${font}`}
+          onClick={() => handleChange(code)}
+        >
+          {label}
+        </button>
+      ))}
     </div>
   );
 }
