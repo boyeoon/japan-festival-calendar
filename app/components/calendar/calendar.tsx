@@ -1,8 +1,8 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import dayjs from "dayjs";
-import "dayjs/locale/ja"; // 일본어 날짜 지원
+import "dayjs/locale/ja";
 import LanguageButton from "@/components/button/languagebutton";
 import DateModal from "@/components/modal/datemodal";
 import Weekdays from "@/components/calendar/weekdays";
@@ -24,110 +24,104 @@ interface Holiday {
 }
 
 export default function Calendar() {
-  // 달력
-  const [currentDate, setCurrentDate] = useState(dayjs());
+  const [currentDate, setCurrentDate] = useState(dayjs()); // 달력
+  const [events, setEvents] = useState<Event[]>([]); // 이벤트
+  const [holidays, setHolidays] = useState<Holiday[]>([]); // 공휴일
+  const [lang, setLang] = useState<string>("ja"); //다국어
+  const [selectedDate, setSelectedDate] = useState<string | null>(null); // 모달
+  const [isModalOpen, setIsModalOpen] = useState(false); //모달
 
-  // 이벤트
-  const [events, setEvents] = useState<Event[]>([]);
-
-  // 공휴일
-  const [holidays, setHolidays] = useState<Holiday[]>([]);
-
-  // 다국어
-  const [lang, setLang] = useState<string>("ja");
-
-  // 모달
-  const [selectedDate, setSelectedDate] = useState<string | null>(null);
-  const [selectedEvents, setSelectedEvents] = useState<Event[]>([]);
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
-  // 모달
-  function openModal(date: string, dayEvents: Event[]) {
+  const openModal = (date: string) => {
     setSelectedDate(date);
-    setSelectedEvents(dayEvents);
     setIsModalOpen(true);
-  }
+  };
 
-  function closeModal() {
+  const closeModal = () => {
     setIsModalOpen(false);
     setSelectedDate(null);
-    setSelectedEvents([]);
-  }
+  };
 
-  // 이벤트
-  async function fetchEvents() {
-    try {
-      const response = await fetch(
-        `/api/events?year=${currentDate.year()}&month=${
-          currentDate.month() + 1
-        }`
-      );
-      if (!response.ok) {
-        throw new Error("이벤트 데이터를 불러오는 데 실패했습니다.");
-      }
-      const data = await response.json();
-      setEvents(data);
-    } catch (error) {
-      console.error(error);
-    }
-  }
+  const prevMonth = useCallback(() => {
+    setCurrentDate((prev) => prev.subtract(1, "month"));
+  }, []);
 
-  // 공휴일
-  async function fetchHolidays() {
-    try {
-      const response = await fetch(`/api/holidays?year=${currentDate.year()}`);
-      if (!response.ok) {
-        throw new Error(
-          `공휴일 데이터를 불러오는 데 실패했습니다. 상태 코드: ${response.status}`
-        );
-      }
-      const data: Holiday[] = await response.json();
-      // console.log("공휴일 데이터:", data);
-      setHolidays(data);
-    } catch (error) {
-      console.error("공휴일 데이터 가져오기 실패:", error);
-    }
-  }
-
-  useEffect(() => {
-    if (typeof window !== "undefined") {
-      const storedLang = localStorage.getItem("language");
-      if (storedLang) {
-        setLang(storedLang);
-      }
-    }
+  const nextMonth = useCallback(() => {
+    setCurrentDate((prev) => prev.add(1, "month"));
   }, []);
 
   useEffect(() => {
+    const storedLang = localStorage.getItem("language");
+    if (storedLang) setLang(storedLang);
+  }, []);
+
+  useEffect(() => {
+    async function fetchEvents() {
+      try {
+        const response = await fetch(
+          `/api/events?year=${currentDate.year()}&month=${
+            currentDate.month() + 1
+          }`
+        );
+        if (!response.ok)
+          throw new Error("이벤트 데이터를 불러오는 데 실패했습니다.");
+        setEvents(await response.json());
+      } catch (error) {
+        console.error(error);
+      }
+    }
     fetchEvents();
-    fetchHolidays();
   }, [currentDate]);
 
-  function prevMonth() {
-    setCurrentDate(currentDate.subtract(1, "month"));
-  }
+  useEffect(() => {
+    async function fetchHolidays() {
+      try {
+        const response = await fetch(
+          `/api/holidays?year=${currentDate.year()}`
+        );
+        if (!response.ok)
+          throw new Error("공휴일 데이터를 불러오는 데 실패했습니다.");
+        setHolidays(await response.json());
+      } catch (error) {
+        console.error("공휴일 데이터 가져오기 실패:", error);
+      }
+    }
+    fetchHolidays();
+  }, [currentDate.year()]);
 
-  function nextMonth() {
-    setCurrentDate(currentDate.add(1, "month"));
-  }
+  const getEventTitle = (event: Event) => {
+    return lang === "ko"
+      ? event.title_ko
+      : lang === "ja"
+      ? event.title_ja
+      : event.title_en;
+  };
+
+  const getHolidayForDate = (date: string) => {
+    return holidays.find((h) => h.date === date);
+  };
+
+  const getEventsForDate = (date: string) => {
+    return events.filter((e) => e.date === date);
+  };
+
+  const daysInMonth = useMemo(() => currentDate.daysInMonth(), [currentDate]);
 
   return (
     <div>
-      {/* 모달 컴포넌트 */}
+      {/* 날짜 선택 모달 */}
       <DateModal
         isOpen={isModalOpen}
         onClose={closeModal}
         date={selectedDate || ""}
-        events={selectedEvents}
+        events={getEventsForDate(selectedDate || "")}
         lang={lang}
       />
 
       <div className="w-full max-w-5xl mx-auto mt-8 p-4">
-        {/* 언어 변경 버튼 */}
+        {/* 다국어 버튼 */}
         <div className="mb-4 flex justify-end">
           <LanguageButton onChange={setLang} />
         </div>
-
         {/* 달력 헤더 */}
         <div className="flex justify-between items-center mb-4">
           <button onClick={prevMonth} className="p-2 bg-gray-200 rounded-md">
@@ -140,7 +134,6 @@ export default function Calendar() {
             ▶
           </button>
         </div>
-
         {/* 달력 테이블 */}
         <div className="grid grid-cols-7 gap-1 border border-gray-300 p-2 rounded-md">
           {/* 요일 헤더 */}
@@ -164,36 +157,32 @@ export default function Calendar() {
             <div key={`empty-${i}`} className="p-6"></div>
           ))}
 
-          {/* 날짜 출력 */}
-          {[...Array(currentDate.daysInMonth())].map((_, i) => {
+          {[...Array(daysInMonth)].map((_, i) => {
             const day = i + 1;
             const date = currentDate.date(day).format("YYYY-MM-DD");
-            // const dayOfWeek = date.day(); // 0 = 일요일, 6 = 토요일
 
-            const dayEvents = events.filter(
-              (e) => dayjs(e.date).date() === day
-            );
-            const displayedEvents = dayEvents.slice(0, 3); // 최대 3개 표시
-            const totalEventCount = dayEvents.length; // 총 이벤트 개수
+            const dayEvents = getEventsForDate(date);
+            const displayedEvents = dayEvents.slice(0, 3);
+            const totalEventCount = dayEvents.length;
 
-            const holiday = holidays.find((h) =>
-              dayjs(h.date).isSame(date, "day")
-            );
+            const holiday = getHolidayForDate(date);
+            const isSunday = dayjs(date).day() === 0; // 일요일
+            const isSaturday = dayjs(date).day() === 6; // 토요일
 
             return (
               <div
                 key={day}
                 className="h-32 flex flex-col border rounded-md cursor-pointer hover:bg-gray-100"
-                onClick={() => openModal(date, dayEvents)}
+                onClick={() => openModal(date)}
               >
                 {/* 날짜와 공휴일 + 추가 이벤트 개수 표시 */}
                 <div className="p-4 flex items-center justify-between">
                   <div className="flex items-center">
                     <span
                       className={`font-semibold ${
-                        holiday || dayjs(date).day() === 0
+                        holiday || isSunday
                           ? "text-red-500"
-                          : dayjs(date).day() === 6
+                          : isSaturday
                           ? "text-blue-500"
                           : "text-black"
                       }`}
@@ -233,11 +222,7 @@ export default function Calendar() {
                           : "font-LINESeedEN"
                       }`}
                     >
-                      {lang === "ko"
-                        ? event.title_ko
-                        : lang === "ja"
-                        ? event.title_ja
-                        : event.title_en}
+                      {getEventTitle(event)}
                     </a>
                   ))}
                 </div>
