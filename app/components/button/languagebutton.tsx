@@ -53,6 +53,16 @@ export default function LanguageButton({
       >
         한국어
       </button>
+      <button
+        className={`px-4 py-2 rounded-md ${
+          lang === "en"
+            ? "bg-blue-500 text-white font-LINESeedJP"
+            : "bg-gray-200 font-LINESeedJP"
+        }`}
+        onClick={() => handleChange("en")}
+      >
+        English
+      </button>
     </div>
   );
 }

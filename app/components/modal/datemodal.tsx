@@ -8,7 +8,12 @@ export default function Modal({
   isOpen: boolean;
   onClose: () => void;
   date: string;
-  events: { title_ja: string; title_ko: string; link: string }[];
+  events: {
+    title_ja: string;
+    title_ko: string;
+    title_en: string;
+    link: string;
+  }[];
   lang: string;
 }) {
   if (!isOpen) return null;
@@ -40,17 +45,27 @@ export default function Modal({
                 target="_blank"
                 rel="noopener noreferrer"
                 className={`block bg-[#A2D4FF] text-lg text-center px-4 py-2 rounded-md hover:bg-[#70b9ff] transition ${
-                  lang === "ko" ? "font-LINESeedKR" : "font-LINESeedJP"
+                  lang === "ko"
+                    ? "font-LINESeedKR"
+                    : lang === "en"
+                    ? "font-LINESeedJP"
+                    : "font-LINESeedEN"
                 }`}
               >
-                {lang === "ko" ? event.title_ko : event.title_ja}
+                {lang === "ko"
+                  ? event.title_ko
+                  : lang === "ja"
+                  ? event.title_ja
+                  : event.title_en}
               </a>
             ))
           ) : (
             <p className="text-gray-500 text-center">
               {lang === "ko"
                 ? "이벤트가 없습니다."
-                : "フェスティバルがありません。"}
+                : lang === "ja"
+                ? "フェスティバルがありません。"
+                : "No festivals available."}
             </p>
           )}
         </div>

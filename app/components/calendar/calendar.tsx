@@ -13,9 +13,9 @@ interface Event {
   id: number;
   title_ja: string;
   title_ko: string;
+  title_en: string;
   date: string;
   link: string;
-  source: string;
 }
 
 interface Holiday {
@@ -219,19 +219,25 @@ export default function Calendar() {
 
                 {/* 이벤트 그룹 (최대 3개만 표시) */}
                 <div className="flex flex-col gap-1 w-full">
-                  {displayedEvents.map((event, index) => (
+                  {displayedEvents.map((event) => (
                     <a
-                      key={`${event.id || event.title_ja}_${
-                        event.date
-                      }_${index}`}
+                      key={event.id}
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
                       className={`bg-[#A2D4FF] text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-[#70b9ff] transition rounded-md ${
-                        lang === "ko" ? "font-LINESeedKR" : "font-LINESeedJP"
+                        lang === "ko"
+                          ? "font-LINESeedKR"
+                          : lang === "en"
+                          ? "font-LINESeedJP"
+                          : "font-LINESeedEN"
                       }`}
                     >
-                      {lang === "ko" ? event.title_ko : event.title_ja}{" "}
+                      {lang === "ko"
+                        ? event.title_ko
+                        : lang === "ja"
+                        ? event.title_ja
+                        : event.title_en}
                     </a>
                   ))}
                 </div>
