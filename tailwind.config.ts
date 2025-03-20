@@ -15,6 +15,7 @@ export default {
       fontFamily: {
         LINESeedKR: ["var(--font-line-kr)"],
         LINESeedJP: ["var(--font-line-jp)"],
+        LINESeedEN: ["var(--font-line-en)"],
       },
     },
   },

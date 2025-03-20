@@ -14,6 +14,12 @@ const LINESeedJP = localFont({
   display: "swap",
 });
 
+const LINESeedEN = localFont({
+  src: "./fonts/LINESeedSans_W_Rg.woff2",
+  variable: "--font-line-en",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
   title: "Japan Festival Calendar",
   description: "Experience Japanese festival events in one place",
@@ -28,7 +34,7 @@ export default function RootLayout({
     <html lang="en">
       <link rel="icon" href="/favicon.ico" sizes="any" />
       <body
-        className={`${LINESeedKR.variable} ${LINESeedJP.variable} antialiased`}
+        className={`${LINESeedKR.variable} ${LINESeedJP.variable} ${LINESeedEN.variable} antialiased`}
       >
         {children}
       </body>
