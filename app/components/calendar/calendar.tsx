@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import dayjs from "dayjs";
 import "dayjs/locale/ja"; // 일본어 날짜 지원
 import LanguageButton from "@/components/button/languagebutton";
-import Modal from "@/components/modal/modal";
+import DateModal from "@/components/modal/datemodal";
 import Weekdays from "@/components/calendar/weekdays";
 
 dayjs.locale("ja");
@@ -114,7 +114,7 @@ export default function Calendar() {
   return (
     <div>
       {/* 모달 컴포넌트 */}
-      <Modal
+      <DateModal
         isOpen={isModalOpen}
         onClose={closeModal}
         date={selectedDate || ""}
