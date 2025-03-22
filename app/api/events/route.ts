@@ -3,6 +3,16 @@ import { NextResponse } from "next/server";
 import fs from "fs";
 import path from "path";
 
+interface Event {
+  id: number;
+  title_ja: string;
+  title_ko: string;
+  title_en: string;
+  date: string;
+  link: string;
+  source: string;
+}
+
 export async function GET(req: Request) {
   try {
     // 요청된 URL에서 검색 파라미터 추출
@@ -22,7 +32,7 @@ export async function GET(req: Request) {
       { filename: "crawling/data/crawlBread.json", source: "bread" },
     ];
 
-    const events: any[] = [];
+    const events: Event[] = [];
 
     for (const { filename, source } of sources) {
       const filePath = path.join(process.cwd(), "app", filename);
