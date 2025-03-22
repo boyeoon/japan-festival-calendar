@@ -22,7 +22,7 @@ export async function GET(req: Request) {
       { filename: "crawling/data/crawlBread.json", source: "bread" },
     ];
 
-    let events: any[] = [];
+    const events: any[] = [];
 
     for (const { filename, source } of sources) {
       const filePath = path.join(process.cwd(), "app", filename);
