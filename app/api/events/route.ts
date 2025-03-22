@@ -1,7 +1,7 @@
 // Next.js API에서 이벤트 불러오기
 import { NextResponse } from "next/server";
-import fs from "fs";
 import path from "path";
+import { promises as fs } from "fs";
 
 interface Event {
   id: number;
@@ -13,9 +13,14 @@ interface Event {
   source: string;
 }
 
+const sources = [
+  { filename: "crawling/data/crawlYoyogi.json", source: "yoyogi" },
+  { filename: "crawling/data/crawlBread.json", source: "bread" },
+];
+
 export async function GET(req: Request) {
+  // 요청된 URL에서 검색 파라미터 추출
   try {
-    // 요청된 URL에서 검색 파라미터 추출
     const { searchParams } = new URL(req.url);
     const year = Number(searchParams.get("year"));
     const month = Number(searchParams.get("month"));
@@ -27,29 +32,25 @@ export async function GET(req: Request) {
       );
     }
 
-    const sources = [
-      { filename: "crawling/data/crawlYoyogi.json", source: "yoyogi" },
-      { filename: "crawling/data/crawlBread.json", source: "bread" },
-    ];
-
-    const events: Event[] = [];
-
-    for (const { filename, source } of sources) {
+    const readPromises = sources.map(async ({ filename, source }) => {
       const filePath = path.join(process.cwd(), "app", filename);
-      if (fs.existsSync(filePath)) {
+      try {
         // JSON 데이터 불러오기
-        const fileData = JSON.parse(fs.readFileSync(filePath, "utf-8"));
-        const withSource = fileData.map((e: any) => ({
-          ...e,
+        const data = await fs.readFile(filePath, "utf-8");
+        const json = JSON.parse(data);
+        return json.map((event: Omit<Event, "source">) => ({
+          ...event,
           source,
         }));
-        events.push(...withSource);
+      } catch {
+        // 파일이 없거나 파싱 실패 시 빈 배열 반환
+        return [];
       }
-    }
+    });
+    const allEvents = (await Promise.all(readPromises)).flat();
 
-    // 특정 연도와 월에 해당하는 이벤트만 필터링
-    const filtered = events.filter((e) => {
-      const date = new Date(e.date);
+    const filtered = allEvents.filter((event) => {
+      const date = new Date(event.date);
       return date.getFullYear() === year && date.getMonth() + 1 === month;
     });
 
