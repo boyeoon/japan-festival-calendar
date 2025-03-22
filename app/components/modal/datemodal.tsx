@@ -13,6 +13,7 @@ export default function DateModal({
     title_ko: string;
     title_en: string;
     link: string;
+    source: string;
   }[];
   lang: string;
 }) {
@@ -44,12 +45,19 @@ export default function DateModal({
                 href={event.link}
                 target="_blank"
                 rel="noopener noreferrer"
-                className={`block bg-[#A2D4FF] text-lg text-center px-4 py-2 rounded-md hover:bg-[#70b9ff] transition ${
-                  lang === "ko"
-                    ? "font-LINESeedKR"
-                    : lang === "en"
-                    ? "font-LINESeedJP"
-                    : "font-LINESeedEN"
+                className={`block text-lg text-center px-4 py-2 rounded-md transition
+                  ${
+                    lang === "ko"
+                      ? "font-LINESeedKR"
+                      : lang === "en"
+                      ? "font-LINESeedJP"
+                      : "font-LINESeedEN"
+                  } ${
+                  event.source === "yoyogi"
+                    ? "bg-[#A2D4FF] hover:bg-[#70b9ff]"
+                    : event.source === "bread"
+                    ? "bg-[#FFD6A5] hover:bg-[#ffbe70]"
+                    : "bg-gray-300"
                 }`}
               >
                 {lang === "ko"

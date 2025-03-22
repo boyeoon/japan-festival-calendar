@@ -16,6 +16,7 @@ interface Event {
   title_en: string;
   date: string;
   link: string;
+  source: string;
 }
 
 interface Holiday {
@@ -214,12 +215,19 @@ export default function Calendar() {
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`bg-[#A2D4FF] text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis hover:bg-[#70b9ff] transition rounded-md ${
-                        lang === "ko"
-                          ? "font-LINESeedKR"
-                          : lang === "en"
-                          ? "font-LINESeedJP"
-                          : "font-LINESeedEN"
+                      className={`text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis transition rounded-md
+                        ${
+                          lang === "ko"
+                            ? "font-LINESeedKR"
+                            : lang === "en"
+                            ? "font-LINESeedJP"
+                            : "font-LINESeedEN"
+                        } ${
+                        event.source === "yoyogi"
+                          ? "bg-[#A2D4FF] hover:bg-[#70b9ff]"
+                          : event.source === "bread"
+                          ? "bg-[#FFD6A5] hover:bg-[#ffbe70]"
+                          : "bg-gray-300"
                       }`}
                     >
                       {getEventTitle(event)}
