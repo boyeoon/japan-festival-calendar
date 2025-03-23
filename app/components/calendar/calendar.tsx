@@ -16,6 +16,13 @@ interface Event {
   title_en: string;
   date: string;
   link: string;
+  location_ja: string;
+  location_ko: string;
+  location_en: string;
+  time: string;
+  description_ja: string;
+  description_ko: string;
+  description_en: string;
   source: string;
 }
 
