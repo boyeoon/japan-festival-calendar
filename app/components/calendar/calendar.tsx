@@ -211,7 +211,7 @@ export default function Calendar() {
                 <div className="flex flex-col gap-1 w-full">
                   {displayedEvents.map((event) => (
                     <a
-                      key={event.id}
+                      key={`${event.source}-${event.id}`}
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
