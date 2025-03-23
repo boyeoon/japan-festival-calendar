@@ -193,7 +193,7 @@ export default function Calendar() {
 
                     {/* 공휴일이 있으면 날짜 옆에 표시 */}
                     {holiday && (
-                      <span className="ml-2 text-red-500 text-sm font-medium">
+                      <span className="ml-2 text-red-500 text-xs font-medium">
                         {holiday.localName}
                       </span>
                     )}
