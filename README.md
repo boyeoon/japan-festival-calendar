@@ -8,13 +8,6 @@ This website is currently hosted at [**japan-festival-calendar**](https://jfestc
 | ------------------------- | -------------------------------- | ---------------------------------- |
 | [**English**](/README.md) | [**Korean**](/docs/README_ko.md) | [**Japanese**](/docs/README_jp.md) |
 
-<!-- ## Features
-
-- When users guess a Pokémon name, the corresponding Pokémon sprite is displayed dynamically.
-- Users can see the number of Pokémon they have guessed correctly and how many are left in real-time.
-- The application supports responsive design for various screen sizes.
-- There is an option to display or hide the Pokédex number. -->
-
 ## 데이터 구조
 
 각 JSON 파일은 아래와 같은 구조를 가집니다:
