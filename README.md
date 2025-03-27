@@ -54,7 +54,3 @@ This website is currently hosted at [**japan-festival-calendar**](https://jfestc
 ├── README.md
 └── ...
 ```
-
-<!-- ## License
-
-This project is licensed under the [MIT 라이센스](https://mit-license.org/). -->
