@@ -1,3 +1,6 @@
+"use client";
+
+import { useState } from "react";
 import Info from "@/components/calendar/info";
 import InfoModal from "@/components/modal/infomodal";
 
@@ -29,22 +32,32 @@ export default function DateModal({
   }[];
   lang: string;
 }) {
+  const [openInfoId, setOpenInfoId] = useState<number | null>(null);
+
+  const toggleInfo = (id: number) => {
+    setOpenInfoId((prev) => (prev === id ? null : id));
+  };
+
   if (!isOpen) return null;
 
   return (
     <div
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
-      onClick={(e) => e.target === e.currentTarget && onClose()} // 바깥 클릭 시 모달 닫기
+      onClick={(e) => e.target === e.currentTarget && onClose()}
     >
       <div
-        className="bg-white p-6 rounded-lg w-[400px] max-w-full shadow-lg"
+        className="bg-white p-3 sm:p-6 rounded-md sm:rounded-lg w-full sm:w-[400px] max-w-full shadow-lg"
         onClick={(e) => e.stopPropagation()}
       >
         {/* 모달 헤더 */}
-        <div className="flex justify-between items-center mb-12">
-          <h2 className="text-xl font-bold">{date}</h2>
+        <div className="flex justify-between items-center mb-8 sm:mb-12">
+          <h2 className="text-base sm:text-xl font-bold">{date}</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-black">
-            <img src="/Close-Md-Icon.svg" alt="Close" className="w-4 h-4" />
+            <img
+              src="/Close-Md-Icon.svg"
+              alt="Close"
+              className="w-3 h-3 sm:w-4 sm:h-4"
+            />
           </button>
         </div>
 
@@ -56,18 +69,19 @@ export default function DateModal({
                 key={`${event.source}-${event.id}`}
                 className="relative group"
               >
+                {/* 이벤트 제목 */}
                 <a
                   href={event.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`block text-lg text-center px-4 py-2 rounded-md transition
-            ${
-              lang === "ko"
-                ? "font-LINESeedKR"
-                : lang === "en"
-                ? "font-LINESeedJP"
-                : "font-LINESeedEN"
-            } ${
+                  className={`block text-sm sm:text-lg text-center px-3 sm:px-4 py-2 rounded-md transition
+                    ${
+                      lang === "ko"
+                        ? "font-LINESeedKR"
+                        : lang === "en"
+                        ? "font-LINESeedJP"
+                        : "font-LINESeedEN"
+                    } ${
                     event.source === "yoyogi"
                       ? "bg-[#A2D4FF] hover:bg-[#70b9ff]"
                       : event.source === "bread"
@@ -81,7 +95,21 @@ export default function DateModal({
                     ? event.title_ja
                     : event.title_en}
                 </a>
-                <InfoModal event={event} lang={lang} labels={Info[lang]} />
+
+                <button
+                  onClick={() => toggleInfo(event.id)}
+                  className="absolute top-1 right-1 sm:top-1 sm:right-1 text-gray-700 text-xs sm:text-sm hover:text-black"
+                >
+                  <img
+                    src="/Info-Square-Icon.svg"
+                    alt="Info"
+                    className="w-3 h-3 sm:w-4 sm:h-4"
+                  />
+                </button>
+
+                {openInfoId === event.id && (
+                  <InfoModal event={event} lang={lang} labels={Info[lang]} />
+                )}
               </div>
             ))
           ) : (

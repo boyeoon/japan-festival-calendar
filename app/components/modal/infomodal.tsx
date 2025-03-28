@@ -24,11 +24,7 @@ export default function InfoModal({ event, lang, labels }: InfoModalProps) {
   useEffect(() => {
     const updatePosition = (e: MouseEvent) => {
       const windowHeight = window.innerHeight;
-      if (e.clientY > windowHeight / 2) {
-        setPosition("top"); // 화면 아래쪽이면 위에 표시
-      } else {
-        setPosition("bottom"); // 화면 위쪽이면 아래에 표시
-      }
+      setPosition(e.clientY > windowHeight / 2 ? "top" : "bottom");
     };
 
     window.addEventListener("mousemove", updatePosition);
@@ -40,10 +36,11 @@ export default function InfoModal({ event, lang, labels }: InfoModalProps) {
       ref={infoRef}
       className={`absolute ${
         position === "top" ? "bottom-full mb-2" : "top-full mt-2"
-      } left-1/2 -translate-x-1/2 hidden group-hover:block bg-white border border-gray-300 shadow-lg p-4 rounded-md z-50 w-[30rem] text-md whitespace-pre-wrap`}
+      } left-1/2 -translate-x-1/2 hidden group-hover:block bg-white border border-gray-300 shadow-lg rounded-md z-50
+        w-[90vw] max-w-[30rem] p-3 sm:p-4 text-sm sm:text-base whitespace-pre-wrap`}
     >
       <div className="flex mb-1">
-        <span className="w-14 font-bold shrink-0">{labels[0]}:</span>
+        <span className="w-10 sm:w-14 font-bold shrink-0">{labels[0]}:</span>
         <span>
           {lang === "ko"
             ? event.location_ko
@@ -53,13 +50,13 @@ export default function InfoModal({ event, lang, labels }: InfoModalProps) {
         </span>
       </div>
       <div className="flex mb-1">
-        <span className="w-14 font-bold shrink-0">{labels[1]}:</span>
+        <span className="w-10 sm:w-14 font-bold shrink-0">{labels[1]}:</span>
         <span>
           {event.date} {event.time}
         </span>
       </div>
       <div className="flex">
-        <span className="w-14 font-bold shrink-0">{labels[2]}:</span>
+        <span className="w-10 sm:w-14 font-bold shrink-0">{labels[2]}:</span>
         <span className="whitespace-pre-wrap">
           {lang === "ko"
             ? event.description_ko
