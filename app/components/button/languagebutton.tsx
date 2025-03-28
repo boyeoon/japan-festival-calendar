@@ -7,23 +7,30 @@ export default function LanguageButton({
 }: {
   onChange: (lang: string) => void;
 }) {
-  const [lang, setLang] = useState<string>(() => {
-    if (typeof window !== "undefined") {
-      return localStorage.getItem("language") || "ja";
-    }
-    return "ja";
-  });
+  const [lang, setLang] = useState<string>("ja");
+  const [hasMounted, setHasMounted] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    setHasMounted(true);
+    const storedLang = localStorage.getItem("language");
+    if (storedLang) {
+      setLang(storedLang);
+      onChange(storedLang);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (hasMounted) {
       localStorage.setItem("language", lang);
       onChange(lang);
     }
-  }, [lang, onChange]);
+  }, [lang, hasMounted, onChange]);
 
   const handleChange = (newLang: string) => {
     if (lang !== newLang) setLang(newLang);
   };
+
+  if (!hasMounted) return null; // SSR mismatch 방지
 
   return (
     <div className="flex gap-2">
