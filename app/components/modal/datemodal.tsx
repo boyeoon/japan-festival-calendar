@@ -44,7 +44,7 @@ export default function DateModal({
         <div className="flex justify-between items-center mb-12">
           <h2 className="text-xl font-bold">{date}</h2>
           <button onClick={onClose} className="text-gray-500 hover:text-black">
-            ✕
+            <img src="/Close-Md-Icon.svg" alt="Close" className="w-4 h-4" />
           </button>
         </div>
 
