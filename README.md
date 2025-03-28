@@ -8,22 +8,6 @@ This website is currently hosted at [**japan-festival-calendar**](https://jfestc
 | ------------------------- | -------------------------------- | ---------------------------------- |
 | [**English**](/README.md) | [**Korean**](/docs/README_ko.md) | [**Japanese**](/docs/README_jp.md) |
 
-## 데이터 구조
-
-각 JSON 파일은 아래와 같은 구조를 가집니다:
-
-```json
-{
-  "id": 1,
-  "title_ja": "タイトル（日本語）",
-  "title_ko": "제목 (한국어)",
-  "title_en": "Title (English)",
-  "date": "2025-03-07",
-  "link": "https://example.com",
-  "source": "yoyogi"
-}
-```
-
 ## Tech Stack
 
 - [**React**](https://react.dev/)
