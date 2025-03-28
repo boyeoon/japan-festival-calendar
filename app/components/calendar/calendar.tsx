@@ -125,13 +125,13 @@ export default function Calendar() {
         lang={lang}
       />
 
-      <div className="w-full max-w-5xl mx-auto mt-8 p-4">
+      <div className="w-full max-w-5xl mx-auto mt-4 px-2 sm:mt-8 sm:p-4">
         {/* 다국어 버튼 */}
         <div className="mb-4 flex justify-end">
           <LanguageButton onChange={setLang} />
         </div>
         {/* 달력 헤더 */}
-        <div className="flex justify-between items-center mb-4">
+        <div className="flex justify-between items-center mb-2 sm:mb-4 text-sm sm:text-base">
           <button onClick={prevMonth} className="p-2 bg-gray-200 rounded-md">
             ◀
           </button>
@@ -148,7 +148,7 @@ export default function Calendar() {
           {(Weekdays[lang] || Weekdays["en"]).map((day, index) => (
             <div
               key={day}
-              className={`text-center font-bold p-2 bg-gray-100 ${
+              className={`text-center font-bold p-1 sm:p-2 text-xs sm:text-sm bg-gray-100 ${
                 index === 0
                   ? "text-red-500"
                   : index === 6
@@ -180,14 +180,14 @@ export default function Calendar() {
             return (
               <div
                 key={day}
-                className="h-32 flex flex-col border rounded-md cursor-pointer hover:bg-gray-100"
+                className="h-[4.5rem] sm:h-32 flex flex-col border rounded-md cursor-pointer hover:bg-gray-100 transition"
                 onClick={() => openModal(date)}
               >
                 {/* 날짜와 공휴일 + 추가 이벤트 개수 표시 */}
-                <div className="p-4 flex items-center justify-between">
+                <div className="px-1 py-1 sm:p-4 flex items-center justify-between">
                   <div className="flex items-center">
                     <span
-                      className={`font-semibold ${
+                      className={`text-[0.625rem] sm:text-sm font-semibold ${
                         holiday || isSunday
                           ? "text-red-500"
                           : isSaturday
@@ -200,7 +200,7 @@ export default function Calendar() {
 
                     {/* 공휴일이 있으면 날짜 옆에 표시 */}
                     {holiday && (
-                      <span className="ml-2 text-red-500 text-xs font-medium">
+                      <span className="ml-1 text-[0.25rem] sm:text-xs text-red-500 font-medium">
                         {holiday.localName}
                       </span>
                     )}
@@ -208,21 +208,21 @@ export default function Calendar() {
 
                   {/* 총 이벤트 개수 박스 */}
                   {totalEventCount > 0 && (
-                    <span className="bg-gray-300 text-xs text-black px-2 py-1 rounded-md">
+                    <span className="bg-gray-300 text-[0.625rem] sm:text-xs text-black px-1 py-0.5 sm:px-2 sm:py-1 rounded-md">
                       {totalEventCount}
                     </span>
                   )}
                 </div>
 
                 {/* 이벤트 그룹 (최대 3개만 표시) */}
-                <div className="flex flex-col gap-1 w-full">
+                <div className="flex flex-col gap-[0.15rem] sm:gap-1 w-full">
                   {displayedEvents.map((event) => (
                     <a
                       key={`${event.source}-${event.id}`}
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`text-xs text-center px-2 py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis transition rounded-md
+                      className={`text-[0.4rem] sm:text-xs text-center px-1 sm:px-2 py-[0.1rem] sm:py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis transition rounded-[0.2rem] sm:rounded-md
                         ${
                           lang === "ko"
                             ? "font-LINESeedKR"

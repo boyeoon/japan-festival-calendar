@@ -41,7 +41,7 @@ export default function LanguageButton({
       ].map(({ code, label, font }) => (
         <button
           key={code}
-          className={`px-4 py-2 rounded-md ${
+          className={`text-xs sm:text-sm px-4 py-2 rounded-md ${
             lang === code ? "bg-blue-500 text-white" : "bg-gray-200"
           } ${font}`}
           onClick={() => handleChange(code)}

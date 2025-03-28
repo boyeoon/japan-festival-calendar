@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="mt-2 mb-6 text-center">
+    <footer className="mt-4 sm:mt-6 mb-8 sm:mb-12 text-center text-[0.65rem] sm:text-sm px-4">
       <p>
         &copy; {new Date().getFullYear()}. Japan Festival Calendar. All rights
         reserved.
