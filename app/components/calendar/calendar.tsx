@@ -133,13 +133,21 @@ export default function Calendar() {
         {/* 달력 헤더 */}
         <div className="flex justify-between items-center mb-2 sm:mb-4 text-sm sm:text-base">
           <button onClick={prevMonth} className="p-2 bg-gray-200 rounded-md">
-            ◀
+            <img
+              src="/Arrow-Left-Icon.svg"
+              alt="Arrow Left"
+              className="w-4 h-4"
+            />
           </button>
           <h2 className="text-2xl font-semibold">
             {currentDate.format("YYYY. MM.")}
           </h2>
           <button onClick={nextMonth} className="p-2 bg-gray-200 rounded-md">
-            ▶
+            <img
+              src="/Arrow-Right-Icon.svg"
+              alt="Arrow Right"
+              className="w-4 h-4"
+            />
           </button>
         </div>
         {/* 달력 테이블 */}
@@ -200,7 +208,7 @@ export default function Calendar() {
 
                     {/* 공휴일이 있으면 날짜 옆에 표시 */}
                     {holiday && (
-                      <span className="ml-1 text-[0.25rem] sm:text-xs text-red-500 font-medium">
+                      <span className="ml-1 text-[0.3rem] sm:text-xs text-red-500 font-medium">
                         {holiday.localName}
                       </span>
                     )}
