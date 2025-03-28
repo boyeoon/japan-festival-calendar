@@ -188,11 +188,11 @@ export default function Calendar() {
             return (
               <div
                 key={day}
-                className="h-[4.5rem] sm:h-32 flex flex-col border rounded-md cursor-pointer hover:bg-gray-100 transition"
+                className="h-[4.5rem] sm:h-32 flex flex-col border rounded-[0.2rem] sm:rounded-md cursor-pointer hover:bg-gray-100 transition"
                 onClick={() => openModal(date)}
               >
                 {/* 날짜와 공휴일 + 추가 이벤트 개수 표시 */}
-                <div className="px-1 py-1 sm:p-4 flex items-center justify-between">
+                <div className="px-1 py-1.5 sm:p-4 flex items-center justify-between">
                   <div className="flex items-center">
                     <span
                       className={`text-[0.625rem] sm:text-sm font-semibold ${
@@ -216,7 +216,7 @@ export default function Calendar() {
 
                   {/* 총 이벤트 개수 박스 */}
                   {totalEventCount > 0 && (
-                    <span className="bg-gray-300 text-[0.625rem] sm:text-xs text-black px-1 py-0.5 sm:px-2 sm:py-1 rounded-md">
+                    <span className="bg-gray-300 text-[0.625rem] sm:text-xs text-black px-1 sm:px-2 sm:py-1 rounded-[0.2rem] sm:rounded-md">
                       {totalEventCount}
                     </span>
                   )}
