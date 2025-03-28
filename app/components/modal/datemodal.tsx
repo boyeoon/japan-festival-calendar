@@ -1,4 +1,5 @@
 import Info from "@/components/calendar/info";
+import InfoModal from "@/components/modal/infomodal";
 
 export default function DateModal({
   isOpen,
@@ -80,42 +81,7 @@ export default function DateModal({
                     ? event.title_ja
                     : event.title_en}
                 </a>
-
-                {/* 말풍선 (툴팁) */}
-                <div className="absolute bottom-full left-1/2 -translate-x-1/2 mb-2 hidden group-hover:block bg-white border border-gray-300 shadow-lg p-4 rounded-md z-50 w-[30rem] text-md whitespace-pre-wrap">
-                  <div className="flex mb-1">
-                    <span className="w-14 font-bold shrink-0">
-                      {Info[lang][0]}:
-                    </span>
-                    <span>
-                      {lang === "ko"
-                        ? event.location_ko
-                        : lang === "ja"
-                        ? event.location_ja
-                        : event.location_en}
-                    </span>
-                  </div>
-                  <div className="flex mb-1">
-                    <span className="w-14 font-bold shrink-0">
-                      {Info[lang][1]}:
-                    </span>
-                    <span>
-                      {event.date} {event.time}
-                    </span>
-                  </div>
-                  <div className="flex">
-                    <span className="w-14 font-bold shrink-0">
-                      {Info[lang][2]}:
-                    </span>
-                    <span className="whitespace-pre-wrap">
-                      {lang === "ko"
-                        ? event.description_ko
-                        : lang === "ja"
-                        ? event.description_ja
-                        : event.description_en}
-                    </span>
-                  </div>
-                </div>
+                <InfoModal event={event} lang={lang} labels={Info[lang]} />
               </div>
             ))
           ) : (
