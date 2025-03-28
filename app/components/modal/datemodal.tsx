@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Info from "@/components/calendar/info";
 import InfoModal from "@/components/modal/infomodal";
 
@@ -33,10 +33,20 @@ export default function DateModal({
   lang: string;
 }) {
   const [openInfoId, setOpenInfoId] = useState<number | null>(null);
+  const [isMobile, setIsMobile] = useState(false);
 
   const toggleInfo = (id: number) => {
     setOpenInfoId((prev) => (prev === id ? null : id));
   };
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth < 640);
+    };
+    handleResize();
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   if (!isOpen) return null;
 
@@ -97,7 +107,21 @@ export default function DateModal({
                 </a>
 
                 <button
-                  onClick={() => toggleInfo(event.id)}
+                  onClick={() => {
+                    if (isMobile) {
+                      toggleInfo(event.id);
+                    }
+                  }}
+                  onMouseEnter={() => {
+                    if (!isMobile) {
+                      setOpenInfoId(event.id);
+                    }
+                  }}
+                  onMouseLeave={() => {
+                    if (!isMobile) {
+                      setOpenInfoId(null);
+                    }
+                  }}
                   className="absolute top-1 right-1 sm:top-1 sm:right-1 text-gray-700 text-xs sm:text-sm hover:text-black"
                 >
                   <img
