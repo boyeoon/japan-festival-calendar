@@ -84,14 +84,7 @@ export default function DateModal({
                   href={event.link}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className={`block text-sm sm:text-lg text-center px-3 sm:px-4 py-2 rounded-md transition
-                    ${
-                      lang === "ko"
-                        ? "font-LINESeedKR"
-                        : lang === "en"
-                        ? "font-LINESeedJP"
-                        : "font-LINESeedEN"
-                    } ${
+                  className={`block text-sm sm:text-lg text-center px-3 sm:px-4 py-2 rounded-md transition ${
                     event.source === "yoyogi"
                       ? "bg-[#A2D4FF] hover:bg-[#70b9ff]"
                       : event.source === "bread"

@@ -230,14 +230,7 @@ export default function Calendar() {
                       href={event.link}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className={`text-[0.4rem] sm:text-xs text-center px-1 sm:px-2 py-[0.1rem] sm:py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis transition rounded-[0.2rem] sm:rounded-md
-                        ${
-                          lang === "ko"
-                            ? "font-LINESeedKR"
-                            : lang === "en"
-                            ? "font-LINESeedJP"
-                            : "font-LINESeedEN"
-                        } ${
+                      className={`text-[0.4rem] sm:text-xs text-center px-1 sm:px-2 py-[0.1rem] sm:py-[0.15rem] w-full overflow-hidden whitespace-nowrap overflow-ellipsis transition rounded-[0.2rem] sm:rounded-md ${
                         event.source === "yoyogi"
                           ? "bg-[#A2D4FF] hover:bg-[#70b9ff]"
                           : event.source === "bread"

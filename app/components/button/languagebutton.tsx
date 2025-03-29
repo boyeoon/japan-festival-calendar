@@ -35,15 +35,15 @@ export default function LanguageButton({
   return (
     <div className="flex gap-2">
       {[
-        { code: "ja", label: "日本語", font: "font-LINESeedJP" },
-        { code: "ko", label: "한국어", font: "font-LINESeedKR" },
-        { code: "en", label: "English", font: "font-LINESeedJP" },
-      ].map(({ code, label, font }) => (
+        { code: "ja", label: "日本語" },
+        { code: "ko", label: "한국어" },
+        { code: "en", label: "English" },
+      ].map(({ code, label }) => (
         <button
           key={code}
           className={`text-xs sm:text-sm px-4 py-2 rounded-md ${
             lang === code ? "bg-blue-500 text-white" : "bg-gray-200"
-          } ${font}`}
+          }`}
           onClick={() => handleChange(code)}
         >
           {label}
