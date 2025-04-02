@@ -38,5 +38,3 @@ This website is currently hosted at [**japan-festival-calendar**](https://jfestc
 ├── README.md
 └── ...
 ```
-
-<!-- 모바일 때 이벤트 2개 보이게 하려고 커스텀 훅 만들었는데 일딴 필요없어서 주석처리함 파일을 올라가 있음 -->
