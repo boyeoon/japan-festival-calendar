@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import languages from "@/components/button/languages";
 
 export default function LanguageButton({
   onChange,
@@ -34,11 +35,7 @@ export default function LanguageButton({
 
   return (
     <div className="flex gap-2">
-      {[
-        { code: "ja", label: "日本語" },
-        { code: "ko", label: "한국어" },
-        { code: "en", label: "English" },
-      ].map(({ code, label }) => (
+      {Object.entries(languages).map(([code, label]) => (
         <button
           key={code}
           className={`text-xs sm:text-sm px-4 py-2 rounded-md ${
