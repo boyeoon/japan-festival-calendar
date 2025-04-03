@@ -20,22 +20,19 @@ export default function SourceFilter({
   };
 
   return (
-    <div className="flex flex-wrap gap-2 mb-4 text-sm sm:text-base">
+    <div className="flex gap-2 mb-4 text-sm sm:text-base overflow-x-auto whitespace-nowrap scrollbar-thin scrollbar-thumb-gray-300 scrollbar-track-transparent px-1 -mx-1">
       {sources.map((source) => {
         const isSelected = selected.includes(source.source);
-
         return (
           <button
             key={source.source}
             onClick={() => toggle(source.source)}
-            className={`
-              px-3 py-1 rounded-md font-medium transition whitespace-nowrap
+            className={`px-3 py-1 rounded-md text-xs sm:text-sm font-medium whitespace-nowrap transition-all 
               ${
                 isSelected
-                  ? source.color // 선택된 경우 source 색상 사용
+                  ? `${source.color}`
                   : "bg-gray-200 text-gray-500 hover:bg-gray-300"
-              }
-            `}
+              }`}
           >
             {lang === "ko"
               ? source.label_ko
