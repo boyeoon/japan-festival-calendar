@@ -6,6 +6,8 @@ import "dayjs/locale/ja";
 import LanguageButton from "@/components/button/languagebutton";
 import DateModal from "@/components/modal/datemodal";
 import Weekdays from "@/components/calendar/weekdays";
+import SourceFilter from "@/components/filter/sourcefilter";
+import Sources from "@/components/filter/sources";
 
 dayjs.locale("ja");
 
@@ -38,6 +40,9 @@ export default function Calendar() {
   const [lang, setLang] = useState<string>("ja"); //다국어
   const [selectedDate, setSelectedDate] = useState<string | null>(null); // 모달
   const [isModalOpen, setIsModalOpen] = useState(false); //모달
+  const [selectedSources, setSelectedSources] = useState<string[]>(
+    Sources.map((s) => s.source)
+  );
 
   const openModal = (date: string) => {
     setSelectedDate(date);
@@ -130,6 +135,16 @@ export default function Calendar() {
         <div className="mb-4 flex justify-end">
           <LanguageButton onChange={setLang} />
         </div>
+
+        {/* 출처 체크박스 필터 처럼 */}
+        <div className="mb-4">
+          <SourceFilter
+            lang={lang}
+            selected={selectedSources}
+            onChange={setSelectedSources}
+          />
+        </div>
+
         {/* 달력 헤더 */}
         <div className="flex justify-between items-center mb-2 sm:mb-4 text-sm sm:text-base">
           <button onClick={prevMonth} className="p-2 bg-gray-200 rounded-md">
@@ -177,7 +192,10 @@ export default function Calendar() {
             const day = i + 1;
             const date = currentDate.date(day).format("YYYY-MM-DD");
 
-            const dayEvents = getEventsForDate(date);
+            // const dayEvents = getEventsForDate(date);
+            const dayEvents = getEventsForDate(date).filter((e) =>
+              selectedSources.includes(e.source)
+            );
             const displayedEvents = dayEvents.slice(0, 3);
             const totalEventCount = dayEvents.length;
 
