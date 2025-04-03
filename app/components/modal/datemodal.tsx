@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Info from "@/components/calendar/info";
+import Info from "@/components/modal/info";
 import InfoModal from "@/components/modal/infomodal";
 
 export default function DateModal({
