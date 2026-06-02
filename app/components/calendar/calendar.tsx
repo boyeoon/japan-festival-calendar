@@ -253,6 +253,8 @@ export default function Calendar() {
                           ? "bg-[#A2D4FF] hover:bg-[#70b9ff]"
                           : event.source === "bread"
                           ? "bg-[#FFD6A5] hover:bg-[#ffbe70]"
+                          : event.source === "tokyo"
+                          ? "bg-[#C7E9B0] hover:bg-[#a9dc86]"
                           : "bg-gray-300"
                       }`}
                     >

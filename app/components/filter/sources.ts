@@ -13,6 +13,13 @@ const sources = [
     label_ko: "빵 페스티벌",
     label_en: "Bread Festival",
   },
+  {
+    source: "tokyo",
+    color: "bg-[#C7E9B0] hover:bg-[#a9dc86]",
+    label_ja: "東京イベント",
+    label_ko: "도쿄 이벤트",
+    label_en: "Tokyo Events",
+  },
 ];
 
 export default sources;
