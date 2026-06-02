@@ -7,7 +7,9 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "crawl:yoyogi": "node app/crawling/scripts/crawlYoyogi.js"
+    "crawl:yoyogi": "node app/crawling/scripts/crawlYoyogi.js",
+    "crawl:bread": "node app/crawling/scripts/crawlBread.js",
+    "crawl": "pnpm crawl:yoyogi && pnpm crawl:bread"
   },
   "dependencies": {
     "dayjs": "^1.11.21",

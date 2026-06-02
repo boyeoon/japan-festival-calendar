@@ -1,0 +1,44 @@
+name: Update festival events
+
+on:
+  schedule:
+    # Mondays at 09:00 KST.
+    - cron: "0 18 * * 0"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  update-festival-events:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup pnpm
+        uses: pnpm/action-setup@v4
+        with:
+          version: 9.13.2
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: pnpm
+
+      - name: Install dependencies
+        run: pnpm install --frozen-lockfile
+
+      - name: Crawl festival events
+        run: pnpm crawl
+
+      - name: Build
+        run: pnpm build
+
+      - name: Commit updated events
+        uses: stefanzweifel/git-auto-commit-action@v5
+        with:
+          commit_message: "chore: update festival events"
+          file_pattern: app/crawling/data/*.json
