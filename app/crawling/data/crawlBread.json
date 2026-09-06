@@ -238,5 +238,53 @@
     "description_ko": "최신 정보는 공식 사이트를 확인해 주세요.",
     "description_en": "Please check the official site for the latest information.",
     "source": "bread"
+  },
+  {
+    "id": 16,
+    "title_ja": "パンのフェス2026 in イオンモール幕張新都心",
+    "title_ko": "パンのフェス2026 in イオンモール幕張新都心",
+    "title_en": "パンのフェス2026 in イオンモール幕張新都心",
+    "date": "2026-10-23",
+    "link": "https://pannofes.jp/event/makuhari2026/",
+    "location_ja": "イオンモール幕張新都心 豊砂公園",
+    "location_ko": "イオンモール幕張新都心 豊砂公園",
+    "location_en": "イオンモール幕張新都心 豊砂公園",
+    "time": "11：00～17：00\n\n※最終日のみ16時まで",
+    "description_ja": "最新情報は公式サイトをご確認ください。",
+    "description_ko": "최신 정보는 공식 사이트를 확인해 주세요.",
+    "description_en": "Please check the official site for the latest information.",
+    "source": "bread"
+  },
+  {
+    "id": 17,
+    "title_ja": "パンのフェス2026 in イオンモール幕張新都心",
+    "title_ko": "パンのフェス2026 in イオンモール幕張新都心",
+    "title_en": "パンのフェス2026 in イオンモール幕張新都心",
+    "date": "2026-10-24",
+    "link": "https://pannofes.jp/event/makuhari2026/",
+    "location_ja": "イオンモール幕張新都心 豊砂公園",
+    "location_ko": "イオンモール幕張新都心 豊砂公園",
+    "location_en": "イオンモール幕張新都心 豊砂公園",
+    "time": "11：00～17：00\n\n※最終日のみ16時まで",
+    "description_ja": "最新情報は公式サイトをご確認ください。",
+    "description_ko": "최신 정보는 공식 사이트를 확인해 주세요.",
+    "description_en": "Please check the official site for the latest information.",
+    "source": "bread"
+  },
+  {
+    "id": 18,
+    "title_ja": "パンのフェス2026 in イオンモール幕張新都心",
+    "title_ko": "パンのフェス2026 in イオンモール幕張新都心",
+    "title_en": "パンのフェス2026 in イオンモール幕張新都心",
+    "date": "2026-10-25",
+    "link": "https://pannofes.jp/event/makuhari2026/",
+    "location_ja": "イオンモール幕張新都心 豊砂公園",
+    "location_ko": "イオンモール幕張新都心 豊砂公園",
+    "location_en": "イオンモール幕張新都心 豊砂公園",
+    "time": "11：00～17：00\n\n※最終日のみ16時まで",
+    "description_ja": "最新情報は公式サイトをご確認ください。",
+    "description_ko": "최신 정보는 공식 사이트를 확인해 주세요.",
+    "description_en": "Please check the official site for the latest information.",
+    "source": "bread"
   }
 ]
